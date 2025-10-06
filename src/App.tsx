@@ -3,6 +3,14 @@ import { Menu, X, BookOpen, Users, Award, Phone, Mail, MapPin, ChevronLeft, Chev
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Contact form state
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+  const [contactMessage, setContactMessage] = useState('');
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactSuccess, setContactSuccess] = useState<string | null>(null);
+  const [contactError, setContactError] = useState<string | null>(null);
 
   const handleEnrollClick = () => {
     const el = document.getElementById('contact');
@@ -25,6 +33,41 @@ function App() {
       }, 600);
     }
     if (isMenuOpen) setIsMenuOpen(false);
+  };
+
+  // Contact form submit handler
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactError(null);
+    setContactSuccess(null);
+
+    if (!contactName || !contactEmail) {
+      setContactError('Please provide your name and email.');
+      return;
+    }
+
+    setContactLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: contactName, email: contactEmail, phone: contactPhone, message: contactMessage })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || 'Failed to send message');
+
+      setContactSuccess('Message sent successfully. Thank you!');
+      setContactName('');
+      setContactEmail('');
+      setContactPhone('');
+      setContactMessage('');
+    } catch (err: any) {
+      setContactError(err.message || 'Failed to send message');
+    } finally {
+      setContactLoading(false);
+    }
   };
 
   // Simple inline Slider component
@@ -548,28 +591,38 @@ function App() {
 
             {/* Contact Form */}
             <div className="bg-gradient-to-br from-amber-50 to-white p-6 sm:p-8 rounded-2xl border border-amber-100">
-              <form className="space-y-4 sm:space-y-6">
+              <form className="space-y-4 sm:space-y-6" onSubmit={handleContactSubmit}>
+                {contactError && <div className="text-sm text-red-600">{contactError}</div>}
+                {contactSuccess && <div className="text-sm text-green-600">{contactSuccess}</div>}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
                   <input
                     id="contact-name"
                     type="text"
+                    value={contactName}
+                    onChange={(e) => setContactName(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-amber-600 focus:ring-2 focus:ring-amber-200 outline-none transition-all"
                     placeholder="Enter your name"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                   <input
                     type="email"
+                    value={contactEmail}
+                    onChange={(e) => setContactEmail(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-amber-600 focus:ring-2 focus:ring-amber-200 outline-none transition-all"
                     placeholder="your@email.com"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
                   <input
                     type="tel"
+                    value={contactPhone}
+                    onChange={(e) => setContactPhone(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-amber-600 focus:ring-2 focus:ring-amber-200 outline-none transition-all"
                     placeholder="+91 98765 43210"
                   />
@@ -578,15 +631,18 @@ function App() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
                   <textarea
                     rows={4}
+                    value={contactMessage}
+                    onChange={(e) => setContactMessage(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all resize-none"
                     placeholder="Tell us about your requirements..."
                   ></textarea>
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-4 bg-gradient-to-r from-amber-700 to-amber-900 text-white rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium"
+                  disabled={contactLoading}
+                  className="w-full py-4 bg-gradient-to-r from-amber-700 to-amber-900 text-white rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium disabled:opacity-60"
                 >
-                  Send Message
+                  {contactLoading ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>
