@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { Menu, X, BookOpen, Users, Award, Phone, Mail, MapPin, ChevronLeft, ChevronRight, Globe, Star, Camera, Bus, Image as ImageIcon, Trophy } from 'lucide-react';
+import { Menu, X, BookOpen, Users, Award, Phone, Mail, MapPin, ChevronLeft, ChevronRight, Globe, Star, Camera, Bus, Image as ImageIcon } from 'lucide-react';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const handleEnrollClick = () => {
     const el = document.getElementById('contact');
+
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     // Close mobile menu if open
     if (isMenuOpen) setIsMenuOpen(false);
   };
+
   const handleGetStartedClick = () => {
     const el = document.getElementById('contact');
     if (el) {
@@ -194,7 +197,7 @@ function App() {
               <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-amber-100 group transition-all duration-500 ease-in-out hover:shadow-amber-200/80 hover:-translate-y-2">
                 <div className="aspect-video bg-gradient-to-br from-amber-100 to-orange-100 relative">
                   <img
-                    src="/school-profile.jpg"
+                    src="/school-profile.png"
                     alt="Bright Future campus"
                     className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                   />
@@ -296,7 +299,7 @@ function App() {
                 description: "State-of-the-art classrooms with advanced learning technology and resources."
               },
               {
-                icon: Trophy,
+                icon: ImageIcon,
                 title: "Big PlayGround",
                 description: "Spacious playgrounds and sports facilities promoting physical fitness and teamwork."
               }
@@ -586,11 +589,11 @@ function App() {
       {/* Footer */}
       <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12 sm:py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-amber-700 to-amber-900 rounded-lg flex items-center justify-center">
-                  <Trophy className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-[#1b1b2f] rounded-lg flex items-center justify-center overflow-hidden">
+                 <img src="/logo.png" alt="Bright Future Logo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain rounded-md" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-base font-bold">Bright Future</span>
@@ -627,18 +630,26 @@ function App() {
 
             <div>
               <h4 className="font-bold mb-4 text-base sm:text-lg">Connect</h4>
-              <ul className="space-y-2 text-sm">
-                <li className="text-gray-400">brightfuture.info.in@gmail.com</li>
-                <li className="text-gray-400">+91 7413826136</li>
-                <li className="text-gray-400">Jai Bhawani Nagar</li>
-                <li className="text-gray-400">Sangariya, Jodhpur -342013</li>
+              <ul className="space-y-3 text-sm">
+                <li className="flex items-start space-x-3">
+                  <Mail className="w-4 h-4 mt-1 flex-shrink-0 text-gray-400" />
+                  <a href="mailto:brightfuture.info.in@gmail.com" className="text-gray-400 hover:text-white transition-colors">brightfuture.info.in@gmail.com</a>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <Phone className="w-4 h-4 mt-1 flex-shrink-0 text-gray-400" />
+                  <a href="tel:+917413826136" className="text-gray-400 hover:text-white transition-colors">+91 7413826136</a>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <MapPin className="w-4 h-4 mt-1 flex-shrink-0 text-gray-400" />
+                  <span className="text-gray-400">Jai Bhawani Nagar, Sangariya, Jodhpur - 342013</span>
+                </li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-700 pt-8 text-center">
             <p className="text-sm text-gray-400">
-              &copy; 2025 Bright Future English Academy School. All rights reserved.
+              &copy; {new Date().getFullYear()} Bright Future English Academy School. All rights reserved.
             </p>
           </div>
         </div>
