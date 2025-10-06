@@ -55,7 +55,11 @@ function App() {
         <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${index * 100}%)` }}>
           {slides.map((src, i) => (
             <div key={i} className="flex-shrink-0 w-full">
-              <img src={src} alt={`Slide ${i+1}`} loading="lazy" className="w-full h-96 object-cover rounded-2xl" />
+              <div className="rounded-2xl p-2 bg-gradient-to-r from-amber-300 via-transparent to-amber-300">
+                <div className="w-full h-96 rounded-2xl overflow-hidden bg-white">
+                  <img src={src} alt={`Slide ${i+1}`} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 ease-in-out" />
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -67,11 +71,7 @@ function App() {
           <ChevronRight className="w-5 h-5" />
         </button>
 
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-          {slides.map((_, i) => (
-            <button key={i} onClick={() => goTo(i)} className={`w-2 h-2 rounded-full ${i === index ? 'bg-amber-700' : 'bg-white/60'}`} aria-label={`Go to slide ${i+1}`} />
-          ))}
-        </div>
+        {/* pagination dots removed per request */}
       </div>
     );
   };
@@ -156,7 +156,10 @@ function App() {
                 <button onClick={handleGetStartedClick} className="px-8 py-4 bg-gradient-to-r from-amber-700 to-amber-900 text-white rounded-full hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 font-medium">
                   Get Started <ChevronRight className="inline w-5 h-5 ml-1" />
                 </button>
-                <button className="px-8 py-4 bg-white text-amber-800 rounded-full border-2 border-amber-700 hover:bg-amber-50 transition-all duration-200 font-medium">
+                <button onClick={() => {
+                  const el = document.getElementById('programs');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }} className="px-8 py-4 bg-white text-amber-800 rounded-full border-2 border-amber-700 hover:bg-amber-50 transition-all duration-200 font-medium">
                   Learn More
                 </button>
               </div>
@@ -204,10 +207,10 @@ function App() {
                 </div>
                 <div className="p-6 sm:p-8 bg-gradient-to-br from-amber-50 to-white">
                   <h3 className="text-2xl sm:text-3xl font-bold text-center mb-3 bg-gradient-to-r from-amber-700 to-amber-900 bg-clip-text text-transparent">
-                    Our School
+                    Our Wonderful School
                   </h3>
                   <p className="text-center text-gray-600 text-sm sm:text-base">
-                    A state-of-the-art facility designed to inspire learning and growth
+                    A state-of-the-art facility designed to inspire learning and growth.
                   </p>
                 </div>
               </div>
@@ -218,7 +221,7 @@ function App() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 sm:py-24 bg-white">
+      <section id="about" className="py-16 sm:py-24 bg-gradient-to-br from-amber-50 via-white to-amber-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Director & Principal Section */}
@@ -227,17 +230,19 @@ function App() {
             <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
               <div className="flex-shrink-0">
                 <img
-                  src="/director.jpg"
+                  src="/chairman.png"
                   alt="School Director"
                   className="w-48 h-48 rounded-full object-cover shadow-lg border-4 border-amber-100"
                 />
               </div>
               <div className="text-center md:text-left">
-                <h3 className="text-xl font-semibold text-amber-800 mb-2">From the Director's Desk</h3>
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">Sher Singh Ji</h2>
-                <p className="text-gray-600 leading-relaxed">
-                  Welcome to Bright Future English Academy! Our vision is to create a learning environment that nurtures curiosity, fosters creativity, and instills a lifelong love for learning. We are dedicated to providing an education that goes beyond textbooks, preparing our students to be confident, compassionate, and responsible global citizens. We believe in every child's potential and strive to empower them to achieve their brightest future.
-                </p>
+                <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-md border-l-4 border-amber-300">
+                  <h3 className="text-xl font-semibold text-amber-800 mb-2">From the Chairman's Desk</h3>
+                  <h2 className="text-3xl font-bold text-gray-800 mb-4">Sher Singh Ji</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    Welcome to Bright Future English Academy! Our vision is to create a learning environment that nurtures curiosity, fosters creativity, and instills a lifelong love for learning. We are dedicated to providing an education that goes beyond textbooks, preparing our students to be confident, compassionate, and responsible global citizens. We believe in every child's potential and strive to empower them to achieve their brightest future.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -245,17 +250,19 @@ function App() {
             <div className="flex flex-col md:flex-row-reverse items-center md:items-start gap-8 md:gap-12">
               <div className="flex-shrink-0">
                 <img
-                  src="/principal.png"
+                  src="/director.jpg"
                   alt="School Principal"
                   className="w-48 h-48 rounded-full object-cover shadow-lg border-4 border-amber-100"
                 />
               </div>
               <div className="text-center md:text-right">
-                <h3 className="text-xl font-semibold text-amber-800 mb-2">A Message from the Principal</h3>
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">Dinesh Ji</h2>
-                <p className="text-gray-600 leading-relaxed">
-                  At Bright Future, we are committed to academic excellence and the holistic development of each student. Our dedicated faculty works tirelessly to create a supportive and engaging atmosphere where students feel valued and are encouraged to explore their talents. We focus on building a strong foundation in English communication, critical thinking, and character development.
-                </p>
+                <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-md border-r-4 border-amber-300">
+                  <h3 className="text-xl font-semibold text-amber-800 mb-2">A Message from the Director</h3>
+                  <h2 className="text-3xl font-bold text-gray-800 mb-4">Dinesh Ji</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    At Bright Future, we are committed to academic excellence and the holistic development of each student. Our dedicated faculty works tirelessly to create a supportive and engaging atmosphere where students feel valued and are encouraged to explore their talents. We focus on building a strong foundation in communication, critical thinking, and character development.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -305,9 +312,12 @@ function App() {
               }
             ].map((feature, index) => (
               <div
-                key={index}
-                className="group p-6 sm:p-8 bg-gradient-to-br from-amber-50 to-white rounded-2xl hover:shadow-xl transition-all duration-300 border border-amber-100 hover:border-amber-300"
-              >
+                  key={index}
+                  className="group relative p-6 sm:p-8 bg-gradient-to-br from-amber-50 to-white rounded-2xl hover:shadow-xl transition-all duration-300 border border-amber-100 hover:border-amber-300 overflow-hidden"
+                >
+                  {/* Decorative gradient blobs */}
+                  <div className="pointer-events-none absolute -top-8 -left-8 w-40 h-40 bg-amber-200 rounded-full blur-3xl opacity-30 transform rotate-12"></div>
+                  <div className="pointer-events-none absolute -bottom-8 -right-8 w-56 h-56 bg-amber-300 rounded-full blur-3xl opacity-25 transform -rotate-12"></div>
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-amber-700 to-amber-900 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
                   <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
@@ -390,9 +400,7 @@ function App() {
                       </li>
                     ))}
                   </ul>
-                  <button className="w-full py-3 bg-gradient-to-r from-amber-700 to-amber-900 text-white rounded-xl hover:shadow-lg transition-all duration-200 font-medium">
-                    Learn More
-                  </button>
+                  {/* Learn More removed per request */}
                 </div>
               </div>
             ))}
@@ -651,6 +659,8 @@ function App() {
             <p className="text-sm text-gray-400">
               &copy; {new Date().getFullYear()} Bright Future English Academy School. All rights reserved.
             </p>
+            <p className="text-sm text-gray-400 mt-2">
+             Designed & Developed by <a href="https://visuark.vercel.app" className="font-semibold text-red-500 hover:underline">Sunil Sharma (Visuark)</a>            </p>
           </div>
         </div>
       </footer>
